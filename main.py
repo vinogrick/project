@@ -24,7 +24,7 @@ class ShooterGame(Widget):
     
     def on_touch_move(self, touch):
         x = touch.x
-        y = touck.y
+        y = touch.y
         vector = (x - x0, y0 - y)
         self.player.move(vector)
     pass
