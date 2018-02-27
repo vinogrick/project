@@ -1,0 +1,15 @@
+#:kivy 1.10.0
+
+<Player>:
+	size: 5, 5
+	canvas:
+		Rectangle:
+			pos: self.pos
+			size: self.size
+			
+
+<ShooterGame>:
+	player: igrok
+	Player:
+		id: igrok
+		center: self.parent.center
