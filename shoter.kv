@@ -1,0 +1,41 @@
+#:kivy 1.10.0
+
+<Player>:
+	size: 100, 150
+	bullets: []
+	score: 0
+	lifes: 3
+	center_coords: [self.parent.width//2, self.parent.height//2]
+	canvas:
+		Rectangle:
+			source: 'car3.png'
+			pos: self.pos
+			size: self.size
+			
+
+
+<ShooterGame>:
+
+	player: igrok
+	if_joy: 0
+	enemies: []
+	canvas:
+		Rectangle:
+			source: 'bg.jpg'
+			pos: self.pos
+			size: self.size
+	Player:
+		id: igrok
+		center: self.parent.center
+	Label:
+		color: (0, 1, 0, 1)
+		font_size: 70
+		center_x: root.width//6
+		top: root.top-20
+		text: 'Score: ' + str(root.player.score)
+	Label:
+		color: (0, 1, 0, 1)
+		font_size: 70
+		center_x: root.width//6*5
+		top: root.top-20
+		text: 'Lifes: ' + str(root.player.lifes)
