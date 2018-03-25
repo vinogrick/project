@@ -197,7 +197,7 @@ def start_game():
                 for i in to_delete1:
                     self.player.lifes-=1
                     if self.player.lifes == 0:    
-                        #run.sound.stop()
+                        run.sound.stop()
                         run.stop()
                         menu()
                     else:
