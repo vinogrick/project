@@ -283,7 +283,6 @@ def menu():
     
         def level(self, num):
             global interval
-            print(num)
             interval = num    
             
     class Menu(App):
