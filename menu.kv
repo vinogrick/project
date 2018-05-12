@@ -1,0 +1,64 @@
+#:kivy 1.10.0
+
+<ShooterMenu>:
+	canvas:
+		Rectangle:
+			size: root.width, root.height
+			pos: self.pos
+			source: 'ilon.png'
+		Rectangle:
+			size: root.width//5, root.height//4
+			pos: 0, root.height//1.8
+			source: 'mouse.png'
+		Rectangle:
+			size: root.width//5, root.height//10
+			pos: root.width//5*4, root.height//1.8
+			source: 'space.png'
+	Button:
+		size: root.width//3, root.height//4
+		pos: root.width//2 - self.size[0]//2, root.height//2 - self.size[1]//2
+		font_size: root.width//20
+		background_color: (0, 1, 1, 1)
+		text: 'GO, ILON!'
+		on_release: root.start()
+	Button:
+		size: root.width//2, root.height//5
+		pos: root.width//2 - self.size[0]//2, root.height//2 - self.size[1]//2 - root.height//4
+		font_size: root.width//30
+		background_color: (0, 1, 0, 1)		
+		text: 'Oh, really wanna exit?'
+		on_release: run.stop()
+	Button:
+		size: root.width//10, root.width//10
+		pos: root.width//4 - self.size[0]//2, root.height//4*3
+		font_size: root.width//40
+		background_color: (0, 1, 0, 1)		
+		text: 'Easy'
+		on_release: root.level(4)
+	Button:
+		size: root.width//10, root.width//10
+		pos: root.width//2 - self.size[0]//2, root.height//4*3
+		font_size: root.width//40
+		background_color: (1, 1, 0, 1)		
+		text: 'Medium'
+		on_release: root.level(2)
+	Button:
+		size: root.width//10, root.width//10
+		pos: root.width//4*3 - self.size[0]//2, root.height//4*3
+		font_size: root.width//40
+		background_color: (1, 0, 0, 1)		
+		text: 'Hard'
+		on_release: root.level(1)
+	Label:
+		color: (1, 1, 1, 1)
+		font_size: root.width//40
+		center_x: root.width//10
+		center_y: root.height//2.2
+		text: 'Press right button\non the mouse and\nswipe it to move!'
+	Label:
+		color: (1, 1, 1, 1)
+		font_size: root.width//40
+		center_x: root.width//5*4 + root.width//10
+		center_y: root.height//2.2
+		text: 'Use spacebar to\nshoot at enemies!'
+
