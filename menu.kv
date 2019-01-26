@@ -6,14 +6,6 @@
 			size: root.width, root.height
 			pos: self.pos
 			source: 'ilon.png'
-		Rectangle:
-			size: root.width//5, root.height//4
-			pos: 0, root.height//1.8
-			source: 'mouse.png'
-		Rectangle:
-			size: root.width//5, root.height//10
-			pos: root.width//5*4, root.height//1.8
-			source: 'space.png'
 	Button:
 		size: root.width//3, root.height//4
 		pos: root.width//2 - self.size[0]//2, root.height//2 - self.size[1]//2
@@ -49,16 +41,3 @@
 		background_color: (1, 0, 0, 1)		
 		text: 'Hard'
 		on_release: root.level(1)
-	Label:
-		color: (1, 1, 1, 1)
-		font_size: root.width//40
-		center_x: root.width//10
-		center_y: root.height//2.2
-		text: 'Press right button\non the mouse and\nswipe it to move!'
-	Label:
-		color: (1, 1, 1, 1)
-		font_size: root.width//40
-		center_x: root.width//5*4 + root.width//10
-		center_y: root.height//2.2
-		text: 'Use spacebar to\nshoot at enemies!'
-
