@@ -22,15 +22,15 @@ interval = 1
 def start_game():
     global angle, x, x0, y, y0, start_angle, interval
     
-    def proverka(x_reck, y_reck, x_bul, y_bul, angle):
-        if x_reck < x_bul + 15*cos(radians(angle)) < x_reck + 50 and y_reck < y_bul + 15*sin(radians(angle)) < y_reck + 50:
+    def proverka(x_reck, y_reck, x_bul, y_bul, angle, size):
+        if x_reck < x_bul + 10*cos(radians(angle)) < x_reck + size and y_reck < y_bul + 10*sin(radians(angle)) < y_reck + size:
             return True
         else:
             return False
         
         
-    def proverka2(x_pl, y_pl, x_en, y_en):
-        if ((x_pl-x_en)**2+(y_pl-y_en)**2)**0.5 < 50:
+    def proverka2(x_pl, y_pl, x_en, y_en, size):
+        if ((x_pl-x_en)**2+(y_pl-y_en)**2)**0.5 < size:
             return True
         else:
             return False
@@ -53,8 +53,8 @@ def start_game():
                     angle = 90
                 else:
                     angle = -90            
-                i[0] = i[0] + Vector(2, 0).rotate(angle)[0]
-                i[1] = i[1] + Vector(2, 0).rotate(angle)[1]
+                i[0] = i[0] + Vector(self.koeff, 0).rotate(angle)[0]
+                i[1] = i[1] + Vector(self.koeff, 0).rotate(angle)[1]
                 i[2].pos = (i[0], i[1])
             
         
@@ -69,7 +69,7 @@ def start_game():
                     if not((i[0] > self.parent.width + 50) or (i[0] < -50) or (i[1] < -50) or (i[1] > self.parent.height + 50)):
                         i[0] = i[0] + Vector(5, 0).rotate(i[3])[0]
                         i[1] = i[1] + Vector(5, 0).rotate(i[3])[1]
-                        i[2].points = [i[0], i[1], i[0] + 15*cos(radians(i[3])), i[1] + 15*sin(radians(i[3]))]
+                        i[2].points = [i[0], i[1], i[0] + 10*cos(radians(i[3])), i[1] + 10*sin(radians(i[3]))]
                     else:
                         self.parent.canvas.remove(i[2])
                         to_delete.append(i)
@@ -86,8 +86,9 @@ def start_game():
                 Color(1, 0, 1)
                 
                 # coordinates of barrel
-                self.coord_fire = [self.center_coords[0] + Vector(self.size[1]//2 - 0, 0).rotate(start_angle)[0], 
-                                   self.center_coords[1] + Vector(self.size[1]//2 - 30, 0).rotate(start_angle)[1]]
+                vec = Vector(self.size[1]/4, 0).rotate(start_angle)
+                self.coord_fire = [self.center_coords[0] + vec[0],
+                                   self.center_coords[1] + vec[1]]
                 
                 # creating a list with 4 parameters: start positions of bullets, bullet as a Line object and the angle of bullet
                 
@@ -97,16 +98,16 @@ def start_game():
                     Clock.unschedule(self.fire_clock)
                     self.fire_clock = Clock.schedule_interval(self.fly_bullet, 1.0 / 60.0)
                     
-                self.bullets.append([self.coord_fire[0], self.coord_fire[1], Line(points = self.coord_fire + [self.coord_fire[0] + 15*cos(radians(start_angle)), 
-                                                                                self.coord_fire[1] + 15*sin(radians(start_angle))], width = 1.5), start_angle])            
+                self.bullets.append([self.coord_fire[0], self.coord_fire[1], Line(points = self.coord_fire + [self.coord_fire[0] + 10*cos(radians(start_angle)), 
+                                                                                self.coord_fire[1] + 10*sin(radians(start_angle))], width = 1.5), start_angle])            
                     
             
         # moves player according to joystick posision
         def move(self, angle):
             global start_angle
-            self.pos = Vector(0, 2) + self.pos
-            self.center_coords[0] += Vector(2, 0).rotate(start_angle)[0]
-            self.center_coords[1] += Vector(2, 0).rotate(start_angle)[1]
+            self.pos = Vector(0, self.koeff) + self.pos
+            self.center_coords[0] += Vector(self.koeff, 0).rotate(start_angle)[0]
+            self.center_coords[1] += Vector(self.koeff, 0).rotate(start_angle)[1]
         
         
         # rotates player according to joystick posision
@@ -138,7 +139,7 @@ def start_game():
         def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
             if keycode[1] == 'spacebar':
                 self.player.fire()
-            return True           
+            return True        
         
         player = ObjectProperty(None)
         
@@ -179,7 +180,7 @@ def start_game():
             
         
         # updates the screen 60 times per second
-        def update(self, dt):
+        def update(self, dt):               
             global angle, x, y, x0 ,y0
             if x != x0 or y != y0:
                 self.player.move(angle)
@@ -187,7 +188,7 @@ def start_game():
                 to_delete = []
                 for i in self.player.bullets:
                     for j in self.enemies:
-                        if proverka(j[0], j[1], i[0], i[1], i[3]):
+                        if proverka(j[0], j[1], i[0], i[1], i[3], j[2].size[0]):
                             self.canvas.remove(i[2])
                             self.canvas.remove(j[2])
                             to_delete.append([i, j])
@@ -203,7 +204,7 @@ def start_game():
             if self.enemies != []:
                 to_delete1=[]
                 for j in self.enemies:  
-                    if proverka2(self.player.center_coords[0],self.player.center_coords[1], j[0]+25,j[1]+25):
+                    if proverka2(self.player.center_coords[0],self.player.center_coords[1], j[0]+25,j[1]+25, j[2].size[0]):
                         self.canvas.remove(j[2])
                         to_delete1.append(j)    
                         
@@ -243,7 +244,7 @@ def start_game():
             x, y = l[randint(0, 3)]
             with self.canvas:
                 Color(1, 1, 1)
-                self.enemies.append([x, y, Rectangle(source = 'alien.png', pos = (x, y), size = (50, 50))])
+                self.enemies.append([x, y, Rectangle(source = 'alien.png', pos = (x, y), size = (self.player.size[0], self.player.size[0]))])
                 
             
             
